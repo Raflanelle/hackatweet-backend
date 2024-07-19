@@ -35,8 +35,8 @@ router.post('/', (req, res) => {
 
     else {
         newTweet.save()
-        .then(() => {
-            res.json({result: true})
+        .then((data) => {
+            res.json({result: true, hashtag: newTweet.hashtag, tweet: data})
             console.log(newTweet);
         })
     }
