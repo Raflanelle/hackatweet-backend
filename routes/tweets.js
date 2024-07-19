@@ -6,7 +6,6 @@ const Tweet = require('../models/tweets');
 // GET all tweets
 router.get('/', (req, res) => {
     Tweet.find()
-    .then(resp => resp.json)
     .then(data => {
         if (data) {
         res.json({result: true, tweets: data})
@@ -26,7 +25,7 @@ router.post('/', (req, res) => {
         name: req.body.name,
         username: req.body.username,
         content: req.body.content,
-        hashtag: hashtag,
+        hashtag: hashtag[0],
         creationDate: new Date(),
     })
     
@@ -44,8 +43,11 @@ router.post('/', (req, res) => {
 })
 
 //DELETE a tweet
-router.delete('/', (req, res) => {
-
+router.delete('/:tweetId', (req, res) => {
+    Tweet.deleteOne({_id: req.params.tweetId})
+    .then(() => {
+        res.json({result: true})
+    })
 })
 
 module.exports = router;
